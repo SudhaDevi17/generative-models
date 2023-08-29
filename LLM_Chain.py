@@ -31,7 +31,9 @@ random_sentiment = "nice"
 if np.random.rand() < 0.3:
     random_sentiment = "mean"
 # We'll also need our social media post:
-social_post = "I can't believe I'm learning about LangChain in this MOOC, there is so much to learn and so far the instructors have been so helpful. I'm having a lot of fun learning! #AI #Databricks"
+social_post = "I can't believe I'm learning about LangChain in this MOOC, " \
+              "there is so much to learn and so far the instructors have been so helpful. " \
+              "I'm having a lot of fun learning! #AI #Databricks"
 
 # Let's create the prompt and print it out, this will be given to the LLM.
 jekyll_prompt = jekyll_prompt_template.format(
@@ -52,13 +54,11 @@ jekyll_chain = LLMChain(
     prompt=jekyll_prompt_template,
     output_key="jekyll_said",
     verbose=False,
-)  # Now that we've chained the LLM and prompt, the output of the formatted prompt will pass directly to the LLM.
-
+)
 # To run our chain we use the .run() command and input our variables as a dict
 jekyll_said = jekyll_chain.run(
     {"sentiment": random_sentiment, "social_post": social_post}
 )
 
-# Before printing what Jekyll said, let's clean it up:
 cleaned_jekyll_said = profanity.censor(jekyll_said)
 print(f"Jekyll said:{cleaned_jekyll_said}")
